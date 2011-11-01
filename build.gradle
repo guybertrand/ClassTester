@@ -1,0 +1,31 @@
+apply plugin: 'java'
+repositories {
+  mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'main'
+            srcDir 'test'
+        }
+     }
+}
+
+task(runTestCase, dependsOn:'classes', type:JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'ClassTesterRunner' 
+  args 'SimpleTest', '', 'false'
+  jvmArgs '-enableassertions'
+}
+
+task(runTestSuite, dependsOn:'classes', type:JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'SimpleTestSuite' 
+  jvmArgs '-enableassertions'
+}
+
+defaultTasks 'build', 'runTestCase', 'runTestSuite'
+
+
+
