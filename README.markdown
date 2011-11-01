@@ -14,7 +14,7 @@ Documentation
 Utilisation de Gradle
 ---------------
 
-    $ git clone git://github.com/potrudeau/ClassTester.git
+    $ git clone https://guybertrand@github.com/guybertrand/ClassTester.git
     $ cd ClassTester
     $ gradle    
 
