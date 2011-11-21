@@ -4,6 +4,7 @@ import logs.Log;
 import serviceLayer.Services;
 import tests.Inventory;
 import tests.SingleTest;
+import xml.XmlWriter;
 import annotations.Test;
 
 public class ClassTester {
@@ -28,30 +29,54 @@ public class ClassTester {
 
 	protected static void lauchTests() throws IllegalArgumentException,
 			SecurityException, InvocationTargetException,
-			NoSuchMethodException, ClassNotFoundException {
+			NoSuchMethodException, ClassNotFoundException 
+	{
+		XmlWriter xmlWriter = new XmlWriter();
+		long RunTestsSuiteStartTime = System.currentTimeMillis();
+		long RunTestsSuiteStopTime = 0l;
+		long SetupStartTime = 0l;
+		long SetupStopTime = 0l;
+		long TestStartTime = 0l;
+		long TestStopTime = 0l;
+		long TearDownStartTime = 0l;
+		long TearDownStopTime = 0l;
+		
+		xmlWriter.StartXMLEntry();
 
-		for (SingleTest s : testInventory) {
-
-			try {
-
+		for (SingleTest s : testInventory) 
+		{
+			try 
+			{
+				SetupStartTime = System.currentTimeMillis();
 				Services.ExecuteMethod(s.getClassName(), Class.forName(
 						s.getClassName()).getMethod("setup"));
+				SetupStopTime = System.currentTimeMillis();
+				
+				TestStartTime = System.currentTimeMillis();
 				Services.ExecuteMethod(s.getClassName(), s.getMethod());
+				TestStopTime = System.currentTimeMillis();
 
 				s.setTestResultMessage("Success");
 				intPassed++;
 
 			} catch (Throwable ex) {
-
+				TestStopTime = System.currentTimeMillis();
 				s.setTestResultMessage(ex.getCause().toString());
 				intFailed++;
 
 			} finally {
-
+				TearDownStartTime = System.currentTimeMillis();
 				Services.ExecuteMethod(s.getClassName(), Class.forName(
 						s.getClassName()).getMethod("tearDown"));
+				TearDownStopTime = System.currentTimeMillis();
+				xmlWriter.AddXMLTest(s.getClassName(),
+						SetupStopTime - SetupStartTime,
+						TestStopTime - TestStartTime,
+						TearDownStopTime - TearDownStartTime);
 
 			}
+			RunTestsSuiteStopTime = System.currentTimeMillis();
+			xmlWriter.FinishXMLEntry(RunTestsSuiteStopTime - RunTestsSuiteStartTime);
 
 		}
 
