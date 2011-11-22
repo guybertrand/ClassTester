@@ -21,12 +21,12 @@ Utilisation de Gradle
 Exemple d'un cas de test (via la ligne de commande)
 ---------------    
 	$ cd ClassTester/build/classes/main
-	$ java -ea ClassTesterRunner SimpleTest "" false	
+	$ java -classpath . -enableassertopm ClassTesterRunner SimpleTest "" false	
 
 Exemple d'une suite de tests
 ---------------    	
 	$ cd ClassTester/build/classes/main
-	$ java -ea SimpleTestSuite
+	$ java -classpath . -enableassertion SimpleTestSuite
 
 [gradle]: http://www.gradle.org/
 [git]: http://git-scm.com/
