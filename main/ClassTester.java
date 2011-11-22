@@ -69,16 +69,16 @@ public class ClassTester {
 				Services.ExecuteMethod(s.getClassName(), Class.forName(
 						s.getClassName()).getMethod("tearDown"));
 				TearDownStopTime = System.currentTimeMillis();
-				xmlWriter.AddXMLTest(s.getClassName(),
+				xmlWriter.AddXMLTest(s.getMethodName(),
 						SetupStopTime - SetupStartTime,
 						TestStopTime - TestStartTime,
 						TearDownStopTime - TearDownStartTime);
 
 			}
-			RunTestsSuiteStopTime = System.currentTimeMillis();
-			xmlWriter.FinishXMLEntry(RunTestsSuiteStopTime - RunTestsSuiteStartTime);
 
 		}
+		RunTestsSuiteStopTime = System.currentTimeMillis();
+		xmlWriter.FinishXMLEntry(RunTestsSuiteStopTime - RunTestsSuiteStartTime);
 
 		displayResults();
 
