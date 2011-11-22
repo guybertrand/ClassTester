@@ -69,10 +69,11 @@ public class ClassTester {
 				Services.ExecuteMethod(s.getClassName(), Class.forName(
 						s.getClassName()).getMethod("tearDown"));
 				TearDownStopTime = System.currentTimeMillis();
-				xmlWriter.AddXMLTest(s.getMethodName(),
+				xmlWriter.AddXMLTest(s.getClassName() + "-" + s.getMethodName(),
 						SetupStopTime - SetupStartTime,
 						TestStopTime - TestStartTime,
-						TearDownStopTime - TearDownStartTime);
+						TearDownStopTime - TearDownStartTime,
+						TearDownStopTime - SetupStartTime);
 
 			}
 
