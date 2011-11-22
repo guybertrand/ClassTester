@@ -21,7 +21,7 @@ Utilisation de Gradle
 Exemple d'un cas de test (via la ligne de commande)
 ---------------    
 	$ cd ClassTester/build/classes/main
-	$ java -classpath . -enableassertopm ClassTesterRunner SimpleTest "" false	
+	$ java -classpath . -enableassertiom ClassTesterRunner SimpleTest "" false	
 
 Exemple d'une suite de tests
 ---------------    	
