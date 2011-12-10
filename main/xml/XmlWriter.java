@@ -11,6 +11,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import file.FileWriter;
 
 public class XmlWriter 
 {
@@ -34,9 +35,6 @@ public class XmlWriter
 		} 
 		rootElement = doc.createElement("TestSuite");
 		doc.appendChild(rootElement);
-		
-		Element startTest = doc.createElement("NewTestSuite");
-		rootElement.appendChild(startTest);
 	}
 	
 	public void AddXMLTest(String testName, long lengthSetup, 
@@ -70,7 +68,7 @@ public class XmlWriter
 
 		xmlEntry = doc.createElement("TestSuiteTotalTime");
 		rootElement.appendChild(xmlEntry);
-		Attr attr = doc.createAttribute("TestSuiteTotalTime");
+		Attr attr = doc.createAttribute("TotalTime");
 		attr.setValue(String.valueOf(endTestSuiteTime));
 		xmlEntry.setAttributeNode(attr);
 		
@@ -81,11 +79,11 @@ public class XmlWriter
 	
 		try
 		{
-			FileWriter outputfile = new FileWriter();
+			FileWriter outputFile = new FileWriter();
 			// write the content into xml file
 			transformerFactory = TransformerFactory.newInstance();
 			transformer = transformerFactory.newTransformer();
-			result = new StreamResult(outputFile.getFile);
+			result = new StreamResult(outputFile.getFileDesc(".xml"));
 			transformer.transform(source, result);
 		}
 		catch (TransformerException tfe) 

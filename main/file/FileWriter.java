@@ -7,11 +7,11 @@ import java.text.SimpleDateFormat;
 public class FileWriter 
 {
 
-	public File getFile(string extension)
+	public File getFileDesc(String extension)
 	{
 		String nomFichier = "rundata-" + FileWriter.maintenant("yyyy-MM-dd-hh-mm-ss") + extension;
 		File fileFD = new File(nomFichier);
-		return fileFD
+		return fileFD;
 	}
 
 	public static String maintenant(String dateFormat)
