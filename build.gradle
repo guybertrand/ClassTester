@@ -13,16 +13,16 @@ sourceSets {
 }
 
 task(runTestCase, dependsOn:'classes', type:JavaExec) {
-  classpath = sourceSets.main.runtimeClasspath
-  main = 'ClassTesterRunner' 
-  args 'SimpleTest', '', 'false'
-  jvmArgs '-enableassertions'
+ main = 'ClassTesterRunner'  
+ classpath = sourceSets.main.runtimeClasspath
+ args 'SimpleTest', '', 'false'
+  jvmArgs '-ea'
 }
 
 task(runTestSuite, dependsOn:'classes', type:JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'SimpleTestSuite' 
-  jvmArgs '-enableassertions'
+  jvmArgs '-ea'
 }
 
 defaultTasks 'build', 'runTestCase', 'runTestSuite'

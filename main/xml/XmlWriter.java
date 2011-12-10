@@ -9,7 +9,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
- 
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -84,16 +85,17 @@ public class XmlWriter
 	
 		try
 		{
+			String nomFichier = "rundata-" + XmlWriter.maintenant("yyyy-MM-dd-hh-mm-ss") + ".xml";
 			// write the content into xml file
 			transformerFactory = TransformerFactory.newInstance();
 			transformer = transformerFactory.newTransformer();
-			result = new StreamResult(new File("rundata.xml"));
+			result = new StreamResult(new File(nomFichier));
 
 			// Output to console for testing
-			StreamResult result2 = new StreamResult(System.out);
+			//StreamResult result2 = new StreamResult(System.out);
 	
 			transformer.transform(source, result);
-			transformer.transform(source, result2);
+			//transformer.transform(source, result2);
 		}
 		catch (TransformerException tfe) 
 		{
@@ -101,4 +103,26 @@ public class XmlWriter
 		}
 		System.out.println("File saved!");
 	}
+
+
+	public static String maintenant(String dateFormat)
+	{
+		Calendar calendrier = Calendar.getInstance();
+		SimpleDateFormat maintenant  = new SimpleDateFormat(dateFormat);
+		return maintenant.format(calendrier.getTime());
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
