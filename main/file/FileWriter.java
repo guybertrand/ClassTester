@@ -6,14 +6,19 @@ import java.text.SimpleDateFormat;
 
 public class FileWriter 
 {
-
+	String nomFichier = "rundata-" + FileWriter.maintenant("yyyy-MM-dd-hh-mm-ss");
+	
 	public File getFileDesc(String extension)
 	{
-		String nomFichier = "rundata-" + FileWriter.maintenant("yyyy-MM-dd-hh-mm-ss") + extension;
+		nomFichier=nomFichier+extension;
 		File fileFD = new File(nomFichier);
 		return fileFD;
 	}
 
+	public String getFilename()
+	{
+		return nomFichier;
+	}
 	public static String maintenant(String dateFormat)
 	{
 		Calendar calendrier = Calendar.getInstance();

@@ -81,9 +81,9 @@ public class XmlWriter
 		DOMSource source = new DOMSource(doc);
 		StreamResult result = null;
 	
+		FileWriter outputFile = new FileWriter();
 		try
 		{
-			FileWriter outputFile = new FileWriter();
 			// write the content into xml file
 			transformerFactory = TransformerFactory.newInstance();
 			transformer = transformerFactory.newTransformer();
@@ -94,7 +94,7 @@ public class XmlWriter
 		{
 			tfe.printStackTrace();
 		}
-		System.out.println("File saved!");
+		System.out.println("File saved! name="+outputFile.getFilename());
 	}
 
 }

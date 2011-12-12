@@ -5,13 +5,14 @@ import java.io.FilenameFilter;
 
 public class GetDataFileNames
 {
+	
 	public File[] getListNamesDataFile()
 	{
 	// TODO nom de fichier hardcoder
 	// TODO si on fait clean dans projet, les fichiers data sont
     // dans répertoire execution, donc ils seronts éffacer
 	File dir = new File (".");
-	
+		
 	File[] files = dir.listFiles
 	(
 			new FilenameFilter() 
