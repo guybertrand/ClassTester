@@ -11,6 +11,8 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
 
 public class XmlReader 
 {
@@ -46,13 +48,13 @@ public class XmlReader
 		Document doc = dBuilder.parse(filename);
 		doc.getDocumentElement().normalize();
  
-		NodeList testList = doc.getElementsByTagName("testName");
+		NodeList testsNodeList = doc.getElementsByTagName("testName");
 		
-		for (int temp = 0; temp < testList.getLength(); temp++) 
+		for (int temp = 0; temp < testsNodeList.getLength(); temp++) 
 		{
-			String testName = testList[temp].getAttribute("class");
-		    Node infoTest = testList.item(temp);
-		    Element testElement = (Element) infoTest;
+			Node testNode = testsNodeList.item(temp);
+		    String testName = testNode.getAttribute("class");
+		    Element testElement = (Element) testNode;
 			setupTime=getTagValue("setup", testElement);
 		    testTime=getTagValue("test",testElement);
 			tearDownTime=getTagValue("tearDown", testElement);
