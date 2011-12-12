@@ -7,6 +7,5 @@ public class SimpleTestSuite extends ClassTester {
 		addTestsSuite("SimpleTestSuiteSub3");
 
 		lauchTests();
-		System.out.println("xxxx");
 	}
 }
