@@ -3,66 +3,72 @@
         MGL 7361 A2011 équipe Gamma - on créer notre JAR et notre code qui va l'utiliser
     </description>
   <!-- set global properties for this build -->
-	<property name="src" location="src"/>
+	<property name="src" location="main"/>
     <property name="build" location="build"/>
-	<property name="dist"  location="dist"/>
+   <property name="srcTest" location="test"/>
 
-   <property name="srcTest" location="srcTest"/>
-   <property name="buildTest" location="buildTest"/>
-   <property name="distTest"  location="distTest"/>
-  
-  <target name="init">
+   <path id="classpath">
+        <fileset dir="libs" includes="**/*.jar"/>
+    </path>
+	
+    <target name="init">
   	<!-- Create the time stamp -->
   	  	<tstamp> 
   			<format property="DSTAMP" pattern="yyyy-MM-dd_hh-mm-aa" unit="hour"/>
   		</tstamp>
     <!-- Create the build directory structure used by compile -->
     <mkdir dir="${build}"/>
-  	<mkdir dir="${buildTest}"/>
-  	<mkdir dir="${dist}"/>
+	<echo>
+Exemple d'un cas de test (via la ligne de commande)
+$ ant 
+ou 
+$ cd ClassTester/build/classes/main
+$ java -classpath . -ea ClassTesterRunner SimpleTest "" false   
+
+Exemple d'une suite de tests
+$ and suite
+ou
+$ cd ClassTester/build/classes/main
+$ java -classpath . -ea SimpleTestSuite
+	</echo>
   </target>
 
-  <target name="compile" depends="init" description="compile the JAR source ">
-  	<javac srcdir="${src}" destdir="${build}" includeantruntime="false"/>
+  <target name="compile" depends="init" description="compile the source " >
+  	<javac srcdir="${src}" destdir="${build}" includeantruntime="false" classpathref="classpath"/>
+	<javac srcdir="${srcTest}" destdir="${build}" includeantruntime="false" classpathref="classpath"></javac>
   </target>
 
-  <target name="jar" depends="compile" description="generate the distribution" >
-    <jar jarfile="${dist}/Gamma.jar" basedir="${build}"/>
-  	<copy todir="${dist}/">
-  	    <fileset dir="${build}/" includes="*.class"/>
-  	  </copy>
+  <!-- <target name="compileTest" depends="compile" description="compile the test source ">
+  	<javac srcdir="${srcTest}" destdir="${build}" includeantruntime="false"></javac>
   </target>
+  -->
 
-  <target name="compileTest" depends="jar" description="compile the JAR source ">
-  	<javac srcdir="${srcTest}" destdir="${buildTest}" includeantruntime="false">
+  <target name="run" depends="compile" description="on execute!!">
+  	    <java classname="ClassTesterRunner" fork="true">
 		<classpath>
-			<pathelement path="${dist}/Gamma.jar"/>
-		</classpath>
-	</javac>
-  </target>
-
-  <target name="distTest" depends="compileTest" description="generate the distribution" >
-    <jar jarfile="${distTest}/monApp.jar" basedir="${buildTest}"/>
-  	<copy todir="${distTest}/">
-  	    <fileset dir="${buildTest}/" includes="*.class"/>
-  	  </copy>
-  </target>
-
-  <target name="run" depends="distTest" description="on execute!!">
-  	    <java classname="application.test.TestMain">
-			<classpath>
-				<pathelement path="${distTest}/monApp.jar"/>
-				<pathelement path="${dist}/Gamma.jar"/>
-			</classpath>
-  	    </java>
+                <path refid="classpath"/>
+                <path location="libs/guava-10.0.1.jar"/>
+				<path location="libs/commons-math-2.2.jar"/>
+				<path location="${build}"/>
+            </classpath>
+			<jvmarg value="-ea"/>
+			<arg line="SimpleTest output false"/>
+		</java>
+		<echo>
+Voir output dans fichier output.txt
+		</echo>
   </target>
 	
-  <target name="clean"
-        description="clean up" >
-    <!-- Delete the ${build} and ${dist} directory trees -->
-    <delete dir="${build}"/>
-  	<delete dir="${buildTest}"/>
-  	<delete dir="${dist}"/>
-	<delete dir="${distTest}"/>
+	<target name="suite" depends="compile" description="on execute!!">
+  	    <java classname="SimpleTestSuite" fork="true">
+		<classpath>
+                <path refid="classpath"/>
+                <path location="libs/guava-10.0.1.jar"/>
+				<path location="libs/commons-math-2.2.jar"/>
+				<path location="${build}"/>
+            </classpath>
+			<jvmarg value="-ea"/>
+		</java>
   </target>
+
 </project>
