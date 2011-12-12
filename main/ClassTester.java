@@ -1,7 +1,12 @@
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+
+import file.GetDataFileNames;
 import logs.Log;
 import serviceLayer.Services;
+import stats.Stats;
 import tests.Inventory;
 import tests.SingleTest;
 import xml.XmlWriter;
@@ -40,11 +45,13 @@ public class ClassTester {
 		long TestStopTime = 0l;
 		long TearDownStartTime = 0l;
 		long TearDownStopTime = 0l;
+		HashMap<String,Boolean> StatutTest = new HashMap<String,Boolean>();
 		
 		xmlWriter.StartXMLEntry();
 
 		for (SingleTest s : testInventory) 
 		{
+			Boolean passOrFail = false;
 			try 
 			{
 				SetupStartTime = System.currentTimeMillis();
@@ -58,10 +65,12 @@ public class ClassTester {
 
 				s.setTestResultMessage("Success");
 				intPassed++;
+				passOrFail=true;
 
 			} catch (Throwable ex) {
 				TestStopTime = System.currentTimeMillis();
 				s.setTestResultMessage(ex.getCause().toString());
+				passOrFail=false;
 				intFailed++;
 
 			} finally {
@@ -69,11 +78,12 @@ public class ClassTester {
 				Services.ExecuteMethod(s.getClassName(), Class.forName(
 						s.getClassName()).getMethod("tearDown"));
 				TearDownStopTime = System.currentTimeMillis();
-				xmlWriter.AddXMLTest(s.getClassName() + "-" + s.getMethodName(),
+				xmlWriter.AddXMLTest(s.getClassName() + "|" + s.getMethodName(),
 						SetupStopTime - SetupStartTime,
 						TestStopTime - TestStartTime,
 						TearDownStopTime - TearDownStartTime,
-						TearDownStopTime - SetupStartTime);
+						TearDownStopTime - SetupStartTime,
+						passOrFail);
 
 			}
 
@@ -82,7 +92,19 @@ public class ClassTester {
 		xmlWriter.FinishXMLEntry(RunTestsSuiteStopTime - RunTestsSuiteStartTime);
 
 		displayResults();
+		
+		generateHtml();
 
+	}
+
+	private static void generateHtml() 
+	{
+		GetDataFileNames fdReader = new GetDataFileNames();
+		
+		File[] listOfDataFiles = fdReader.getListNamesDataFile();
+		
+		Stats mesStats = new Stats();
+		mesStats.generateStats(listOfDataFiles);
 	}
 
 	protected static void loadTests(String className) {

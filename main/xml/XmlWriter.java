@@ -38,7 +38,7 @@ public class XmlWriter
 	}
 	
 	public void AddXMLTest(String testName, long lengthSetup, 
-		long lengthTest, long lengthTearDown, long totalLengthTest)
+		long lengthTest, long lengthTearDown, long totalLengthTest, Boolean passOrFail)
 	{
 		xmlEntry = doc.createElement("testName");
 		rootElement.appendChild(xmlEntry);
@@ -57,6 +57,10 @@ public class XmlWriter
 		Element tearDownEntry = doc.createElement("tearDown");
 		tearDownEntry.appendChild(doc.createTextNode(String.valueOf(lengthTearDown)));
 		xmlEntry.appendChild(tearDownEntry);
+		
+		Element passFailEntry = doc.createElement("passFail");
+		passFailEntry.appendChild(doc.createTextNode(String.valueOf(passOrFail)));
+		xmlEntry.appendChild(passFailEntry);
 
 		Element TotalTestEntry = doc.createElement("TotalTestTime");
 		TotalTestEntry.appendChild(doc.createTextNode(String.valueOf(totalLengthTest)));

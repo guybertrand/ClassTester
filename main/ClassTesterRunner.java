@@ -11,7 +11,7 @@ public class ClassTesterRunner extends ClassTester {
 				.parseBoolean(args[2]));
 
 		lauchTests();
-		System.out.println("test Guy");
+		
 	}
 
 	private static void ValidateArguments(String[] args) {
